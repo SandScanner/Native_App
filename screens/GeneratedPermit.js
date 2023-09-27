@@ -1,0 +1,283 @@
+import { View, Text, ScrollView, useWindowDimensions } from 'react-native'
+import React, { useContext } from 'react'
+import RenderHTML from "react-native-render-html";
+import { AuthContext } from '../context/AuthContext';
+import stamp from "../stamp.png"  
+
+
+const GeneratedPermit = () => {
+
+  const {vehicleData, userInfo} = useContext(AuthContext);
+
+  const html_string = `
+  <!doctype html>
+<html lang="en">
+<head>
+    <title>Permit Slip - PWD</title>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <style type="text/css">
+        body {
+            padding: 5px;
+            margin:0 auto;
+            background: #fff;
+            width: 186px;
+            font-size: 7px;
+        }
+        td {
+            padding: 3px 5px;
+        }
+        .tbPara {
+            border-bottom: 0.5px solid #000;
+        }
+        .pageTitle {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 7px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .clear {
+            overflow: hidden;
+            clear:both;
+            margin-bottom: 0px;
+        }
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
+        }
+        .center {
+            text-align: center;
+            padding: 10px;
+        }
+        .center img {
+            margin-bottom: 10px;
+        }
+        .width75 {
+            width: 75%;
+        }
+        .width100 {
+            width: 100%;
+        }
+        .width25 {
+            width: 25%;
+            text-align: right;
+        }
+        .font13 {
+            font-size: 7px;
+            font-weight: bold;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .rowWiseData > div {
+        	padding-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="clear">
+    <div class="width100 left">
+        <h4 class="pageTitle">கனிமம் மற்றும் கண்காணிப்பு வட்டம், சென்னை, நீ.ஆ.து பொதுப்பணித்துறையால்
+            மணல் கொண்டு செல்வதற்கு வழங்கப்பட்ட<br> அனுமதி சீட்டு முதல்படி
+            <br><strong>GSTIN: %gstin%</strong></h4>
+    </div>
+
+    <div class="width100 center">
+        <img src="data:image/bmp;base64,%qr_bytes%" width="140"/>
+        <p class="font13"></p>
+    </div>
+    <p style="text-align: right;">அனுமதி எண். <strong>%permit_no%</strong></p>
+
+    <div class="clear">
+        <div class="left"><p>பதிவு எண். <strong>%book_no%</strong></p></div>
+        <div class="right"><p>நாள் : <strong>%today_date%</strong></p></div>
+    </div>
+</div>
+<!-- <div class="center">
+
+</div> -->
+<div class="rowWiseData">
+    <div>1. <strong>%procedure_no_and_date%</strong></div>
+    <div>2. <strong>%village_name%</strong></div>
+    <div>3. அலகு - <strong>%quantity%</strong></div>
+    <div>4. (i) அனுமதி வழங்கப்பட்ட நாளும் நேரமும் <br>
+        <strong>%approved_date_time%</strong>
+    </div>
+    <div>(ii) செலுத்தப்பட்ட தொகை<br>
+        <strong>%price_or_bill_no% <br>(Inclusive of CGST Rs.%price_cgst%/- and SGST
+            Rs.%price_sgst%/-)</strong></div>
+    <div>5. (i) மணல் கொண்டு செல்வதற்கான அனுமதி எண் / நாள்
+        <br><strong>%approved_no_and_date%</strong></div>
+    <div>(ii) வண்டி எண் <br><strong>%lorry_no%</strong></div>
+    <div>(iii) மணல் கொண்டு செல்லுமிடம் <br><strong>%sand_destination%</strong></div>
+    <div>6. அனுமதிதாரர் / உரிமை முகவரின் பெயரும் கையொப்பமும்<br><strong>%approver_name%</strong>
+    </div>
+
+    <div>7. இந்த அனுமதியின் செல்திறன் கால அளவு <br>
+        <strong>%expiry_date%</strong></div>
+
+    <!-- <div>8. அலுவலக முத்திரை <img src=${stamp} width="50" /></div> -->
+
+</div>
+<table style="width: 100%;">
+    <tr>
+        <td width="8%">8.</td>
+        <td width="50%">அலுவலக முத்திரை</td>
+        <td width="2%">:</td>
+        <td width="50%"><img src="%stamp%" width="50"/></td>
+    </tr>
+    <tr>
+        <td width="8%"></td>
+        <td width="50%"><h4 style="margin: 0;"><strong>ஓட்டுனரின் கையொப்பம்</strong></h4></td>
+        <td width="2%"></td>
+        <td width="50%"><h4 style="margin: 0;"><strong>உதவி பொறியாளர்</strong></h4></td>
+    </tr>
+</table>
+<br><br><br><br>
+</body>
+</html>
+
+  `;
+
+  const html = `
+  <style type="text/css">
+        body {
+            padding: 5px;
+            margin:0 auto;
+            background: #fff;
+            width: 186px;
+            font-size: 7px;
+        }
+        td {
+            padding: 3px 5px;
+        }
+        .tbPara {
+            border-bottom: 0.5px solid #000;
+        }
+        .pageTitle {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 7px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .clear {
+            overflow: hidden;
+            clear:both;
+            margin-bottom: 0px;
+        }
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
+        }
+        .center {
+            text-align: center;
+            padding: 10px;
+        }
+        .center img {
+            margin-bottom: 10px;
+        }
+        .width75 {
+            width: 75%;
+        }
+        .width100 {
+            width: 100%;
+        }
+        .width25 {
+            width: 25%;
+            text-align: right;
+        }
+        .font13 {
+            font-size: 7px;
+            font-weight: bold;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .rowWiseData > div {
+        	padding-top: 5px;
+        }
+    </style>
+  <div class="clear">
+  <div class="width100 left">
+      <h4 class="pageTitle">கனிமம் மற்றும் கண்காணிப்பு வட்டம், சென்னை, நீ.ஆ.து பொதுப்பணித்துறையால்
+          மணல் கொண்டு செல்வதற்கு வழங்கப்பட்ட<br> அனுமதி சீட்டு முதல்படி
+          <br><strong>GSTIN: %gstin%</strong></h4>
+  </div>
+
+  <div class="width100 center">
+      <img src="data:image/bmp;base64,%qr_bytes%" width="140"/>
+      <p class="font13"></p>
+  </div>
+  <p style="text-align: right;">அனுமதி எண். <strong>%permit_no%</strong></p>
+
+  <div class="clear">
+      <div class="left"><p>பதிவு எண். <strong>%book_no%</strong></p></div>
+      <div class="right"><p>நாள் : <strong>%today_date%</strong></p></div>
+  </div>
+</div>
+<!-- <div class="center">
+
+</div> -->
+<div class="rowWiseData">
+  <div>1. <strong>%procedure_no_and_date%</strong></div>
+  <div>2. <strong>%village_name%</strong></div>
+  <div>3. அலகு - <strong>%quantity%</strong></div>
+  <div>4. (i) அனுமதி வழங்கப்பட்ட நாளும் நேரமும் <br>
+      <strong>%approved_date_time%</strong>
+  </div>
+  <div>(ii) செலுத்தப்பட்ட தொகை<br>
+      <strong>%price_or_bill_no% <br>(Inclusive of CGST Rs.%price_cgst%/- and SGST
+          Rs.%price_sgst%/-)</strong></div>
+  <div>5. (i) மணல் கொண்டு செல்வதற்கான அனுமதி எண் / நாள்
+      <br><strong>%approved_no_and_date%</strong></div>
+  <div>(ii) வண்டி எண் <br><strong>%lorry_no%</strong></div>
+  <div>(iii) மணல் கொண்டு செல்லுமிடம் <br><strong>%sand_destination%</strong></div>
+  <div>6. அனுமதிதாரர் / உரிமை முகவரின் பெயரும் கையொப்பமும்<br><strong>%approver_name%</strong>
+  </div>
+
+  <div>7. இந்த அனுமதியின் செல்திறன் கால அளவு <br>
+      <strong>%expiry_date%</strong></div>
+
+  <!-- <div>8. அலுவலக முத்திரை <img src="${stamp}" width="50" /></div> -->
+
+</div>
+<table style="width: 100%;">
+  <tr>
+      <td width="8%">8.</td>
+      <td width="50%">அலுவலக முத்திரை</td>
+      <td width="2%">:</td>
+      <td width="50%"><img src=${stamp} width="50"/></td>
+  </tr>
+  <tr>
+      <td width="8%"></td>
+      <td width="50%"><h4 style="margin: 0;"><strong>ஓட்டுனரின் கையொப்பம்</strong></h4></td>
+      <td width="2%"></td>
+      <td width="50%"><h4 style="margin: 0;"><strong>உதவி பொறியாளர்</strong></h4></td>
+  </tr>
+</table>
+<br><br><br><br>`
+
+  const { width } = useWindowDimensions();
+
+  return (
+    <ScrollView style={{ flex: 1 }}>
+    <RenderHTML contentWidth={width} source={{ html }} />
+    </ScrollView>
+  )
+}
+
+export default GeneratedPermit
