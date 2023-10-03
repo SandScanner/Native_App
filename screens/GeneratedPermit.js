@@ -1,15 +1,15 @@
-import { View, Text, ScrollView, useWindowDimensions } from 'react-native'
-import React, { useContext } from 'react'
+import { View, Text, ScrollView, useWindowDimensions, TouchableHighlight } from 'react-native'
+import React, { useContext, useState } from 'react'
 import RenderHTML from "react-native-render-html";
 import { AuthContext } from '../context/AuthContext';
-import stamp from "../stamp.png"  
-
-
+import stamp from "../stamp.png"
+import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import Pdf from 'react-native-pdf';
 const GeneratedPermit = () => {
+    const [pdfPath, setPdfPath] = useState();
+    const { vehicleData, userInfo } = useContext(AuthContext);
 
-  const {vehicleData, userInfo} = useContext(AuthContext);
-
-  const html_string = `
+    const html_string = `
   <!doctype html>
 <html lang="en">
 <head>
@@ -146,7 +146,7 @@ const GeneratedPermit = () => {
 
   `;
 
-  const html = `
+    const html = `
   <style type="text/css">
         body {
             padding: 5px;
@@ -271,13 +271,50 @@ const GeneratedPermit = () => {
 </table>
 <br><br><br><br>`
 
-  const { width } = useWindowDimensions();
+    const { width } = useWindowDimensions();
 
-  return (
-    <ScrollView style={{ flex: 1 }}>
-    <RenderHTML contentWidth={width} source={{ html }} />
-    </ScrollView>
-  )
+    async function createPDF() {
+        let options = {
+            html: html,
+            fileName: 'test',
+            directory: 'Documents',
+        };
+
+        let file = await RNHTMLtoPDF.convert(options)
+        setPdfPath(file.filePath);
+        alert(file.filePath);
+    }
+
+    return (
+        <ScrollView style={{ flex: 1 }}>
+            {/* <RenderHTML contentWidth={width} source={{ html }} /> */}
+            <View style={{
+                flex: 1,
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                marginTop: 25,
+            }}>
+                <Pdf style={{
+                    width: 1000,
+                    height: 500
+                }}
+                    source={{ uri: 'file://' + pdfPath, cache: true }}
+                    onLoadComplete={(numberOfPages, filePath) => {
+                        console.log(`Number of pages: ${numberOfPages}`);
+                    }}
+                    onPageChanged={(page, numberOfPages) => {
+                        console.log(`Current page: ${page}`);
+                    }}
+                    onError={(error) => {
+                        console.log(`Error: ${error}`);
+                    }}
+                /></View>
+            <TouchableHighlight onPress={createPDF}>
+                <Text>Create PDF</Text>
+            </TouchableHighlight>
+
+        </ScrollView>
+    )
 }
 
 export default GeneratedPermit
