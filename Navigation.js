@@ -11,7 +11,7 @@ const Navigation = () => {
     return (
 
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName='Login'>
             {
                 userInfo.userId ? (
                 <>
