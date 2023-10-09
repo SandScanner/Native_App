@@ -20,7 +20,7 @@ const Login = ({navigation}) => {
 
         const onPressLogin = (nav) => {
         // Do something about login operation
-        console.log('clicked', state)
+        console.log('clicked...', state)
         // nav.navigate('Search')
         loginAPI(state.email, state.password);
         };

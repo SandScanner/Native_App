@@ -58,7 +58,8 @@ const PermitSlipForm = ({navigation}) => {
     let added_hrs =  Number(cur_date.getHours()) + Number(hours);
     cur_date.setHours(added_hrs);
     console.log("Date ", cur_date);
-    setVehicleData({...vehicleData, permitExpiryDate: moment(cur_date).format('DD MMM YYYY hh:mm A'), hours: hours})
+    setVehicleData({...vehicleData, permitExpiryDate: moment(cur_date).format('DD MMM YYYY hh:mm A'), hours: hours,
+    permitExpiryDate1: moment(cur_date).format('DD-MMM-YYYY hh:mm A')})
     setErrState({...errState, hours: ''})
   }
 
