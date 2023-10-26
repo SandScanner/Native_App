@@ -8,9 +8,13 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
     const [userInfo, setUserInfo] = useState({});
+    const [initialPdf, setInitialPdf] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [vehicleData, setVehicleData] = useState();
-
+    const [bluetoothInfo, setBlueToothInfo] = useState({
+        name: '',
+        boundAddress: ''
+    })
     const loginAPI = (username, password) => {
         setIsLoading(true);
         axios.post(`${BASE_URL}/login`, {
@@ -27,7 +31,7 @@ export const AuthProvider = ({children}) => {
     }
 
     return (
-    <AuthContext.Provider value={{loginAPI, userInfo, isLoading, vehicleData, setVehicleData}}>
+    <AuthContext.Provider value={{loginAPI, userInfo, isLoading, vehicleData, setVehicleData, bluetoothInfo, setBlueToothInfo, initialPdf, setInitialPdf}}>
         {children}
     </AuthContext.Provider>
     );

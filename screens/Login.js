@@ -50,7 +50,9 @@ const Login = ({navigation}) => {
 style={styles.inputText}
 placeholder="Username"
 placeholderTextColor="#003f5c"
-onChangeText={text => setState({...state, email:text})}/>
+onChangeText={text => setState({...state, email:text})}
+textContentType='username'
+/>
 </View>
 <View style={styles.inputView}>
 <TextInput
@@ -58,7 +60,9 @@ style={styles.inputText}
 secureTextEntry
 placeholder="Password"
 placeholderTextColor="#003f5c"
-onChangeText={text => setState({...state, password:text})}/>
+onChangeText={text => setState({...state, password:text})}
+textContentType='password'
+/>
 </View>
 <TouchableOpacity
 onPress = {e => onPressLogin(navigation)}

@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import Spinner from 'react-native-loading-spinner-overlay';
 import {
@@ -20,18 +20,20 @@ const Search = ({navigation}) => {
   const [search, setSearch] = useState("");
   const [searchError, setSearchError] = useState("");
   const [loading, setLoading] = useState(false);
+  const text_ref = useRef(null);
 
   const onSearch = () => {
     if (search.length >= 5) {
         setLoading(true);
         axios.post(`${BASE_URL}/getBookingDetails`, {
-            vehicleNumber: search,
+            vehicleNumber: search.replace(/\s/g, ''),
             userId: userInfo?.userId
         }).then(res => {
             if(res.status == 200){
               console.log("got vehicle details ", res.data);
               setVehicleData(res.data);
               setSearchError("");
+              text_ref.current.clear();
               navigation.navigate('BookingDetails');
             }
             else{
@@ -51,13 +53,17 @@ const Search = ({navigation}) => {
   return (
     <View style={styles.container}>
     <Spinner visible={loading} />
-<Text style={styles.title}> TNSand  </Text>
+    <Text style={styles.quarry}> {userInfo?.quarryName.replace("Lorry-\\Govt-Works", '')}</Text>    
+<Text style={styles.title}> Search</Text>
+<Text style={{height: '10px', marginBottom: 10}}>[ex: TN 55 U 8990]</Text>
 <View style={styles.inputView}>
 <TextInput
 style={styles.inputText}
 placeholder="Vehicle Number"
 placeholderTextColor="#003f5c"
-onChangeText={text => setSearch(text)}/>
+onChangeText={text => setSearch(text)}
+ref={text_ref}
+/>
 </View>
 <TouchableOpacity
 onPress = {onSearch}
@@ -81,7 +87,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize:50,
     color:"#fb5b5a",
-    marginBottom: 40,
+    marginBottom: 10,
     },
     inputView:{
     width:"80%",
@@ -112,6 +118,11 @@ const styles = StyleSheet.create({
     },
     errorText: {
       color: "red"
+    },
+    quarry: {
+      color: "white",
+      fontSize: 25,
+
     }
     });
 

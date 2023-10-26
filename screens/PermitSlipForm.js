@@ -1,14 +1,19 @@
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { TextInput, Text, Button } from 'react-native-paper';
 import moment from 'moment';
 import DropDown from "react-native-paper-dropdown";
+import { useTheme } from 'react-native-paper';
+
+
 
 const PermitSlipForm = ({navigation}) => {
 
   const {vehicleData, setVehicleData} = useContext(AuthContext);
   const [showDropDown, setShowDropDown] = useState(false);
+
+  const {colors} = useTheme();
 
   const [errState, setErrState] = useState({
     hours: '',
@@ -53,6 +58,42 @@ const PermitSlipForm = ({navigation}) => {
   { label: 'Virudhunagar', value: 'Virudhunagar' }
   ]
 
+  const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        overflow: 'scroll'
+    },  
+    container1: {
+        flexDirection: 'row'
+    },
+    container2: {
+        margin: 20,
+        flexDirection: 'row',
+        width: "100%"
+    }, 
+    label_left: {
+        width: "50%"
+    } , 
+    value_right: {
+        width: "50%"
+    },
+    label_txt: {
+        color: "grey"
+    },
+   hours_inp: {
+    margin: 10,
+    width: 100
+   },
+   big_inp: {
+    margin: 10
+   },
+   drop:{
+    marginLeft: 10,
+    marginRight: 10,
+    height: "40px",
+   }
+})
+
   const setPermitExpiry = (hours) => {
     let cur_date = new Date();
     let added_hrs =  Number(cur_date.getHours()) + Number(hours);
@@ -88,6 +129,9 @@ const submitForm = () => {
     setErrState({...errState, district: 'Please select district'})
     return
   }
+  if(vehicleData.pincode?.length < 4){
+    setErrState({...errState, pincode: 'Please enter valid pincode'})
+  }
   setErrState({});
   navigation.navigate('GeneratedPermitSlip')
 }
@@ -95,7 +139,7 @@ const submitForm = () => {
 console.log('errstate ', errState)
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} nestedScrollEnabled={true}>
         <View style={styles.container1}>
        <TextInput
         label="Enter Hours"
@@ -140,16 +184,29 @@ console.log('errstate ', errState)
         <View style={styles.drop}> 
         <DropDown
               label={"District"}
-              mode={"outlined"}
+              mode={"flat"}
               visible={showDropDown}
               showDropDown={() => setShowDropDown(true)}
               onDismiss={() => setShowDropDown(false)}
               value={vehicleData.selectedDistrict}
               setValue={setDistrict}
               list={districts_list}
+              dropDownItemStyle={{
+                backgroundColor: "purple",
+                color: "white"
+              }}
+              
             />
-            <Text>{errState.district}</Text>
-            </View>
+        <Text>{errState.district}</Text>
+        </View>
+        
+        <TextInput
+        label="Pincode"
+        value={vehicleData?.pincode}
+        style={styles.big_inp}
+        onChangeText={text => {setVehicleData({...vehicleData, pincode: text}); setErrState({...errState, pincode: ''})}}
+        error={errState.pincode ? true : false}
+        />
         
         <View style={styles.container2}>
         <Text style={styles.label_left}>Axle</Text>
@@ -184,43 +241,9 @@ console.log('errstate ', errState)
             Submit
         </Button>
         </View>
-        
-    </View>
+    </ScrollView>
   )
 }
 
 export default PermitSlipForm
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },  
-    container1: {
-        flexDirection: 'row'
-    },
-    container2: {
-        margin: 20,
-        flexDirection: 'row',
-        width: "100%"
-    }, 
-    label_left: {
-        width: "50%"
-    } , 
-    value_right: {
-        width: "50%"
-    },
-    label_txt: {
-        color: "grey"
-    },
-   hours_inp: {
-    margin: 10,
-    width: 100
-   },
-   big_inp: {
-    margin: 10
-   },
-   drop:{
-    marginLeft: 10,
-    marginRight: 10
-   }
-})
